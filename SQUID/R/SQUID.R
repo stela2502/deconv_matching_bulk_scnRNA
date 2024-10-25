@@ -41,8 +41,30 @@
 #'
 #'
 
+#' Example Data scC 
+#' A single-cell numeric matrix which could be either count or normalized values. Rows should be genes and columns should be cell.ids.
+'scC'
+
+#' Example Data B 
+#' A bulk RNA-seq numeric matrix which could be either count or normalized values. Rows should be genes and columns should be sample.ids.
+'B'
+
+#' Example Data scMeta 
+#' A single-cell annotation data.frame which rows should be cell.ids and columns including cell.id, sample.id, cluster.id, cellType, etc.
+'scMeta'
+
+#' Example Data pB
+#' (Optional) A pseudo-bulk matrix generated based on cluster.id/cellType from single-cell analysis. Rows should be genes and columns should be cluster.id/cellType.
+#' Does actually not exist...
+
+#' Example Data P
+#' (Optional) A numeric matrix of expected cell fractions including the composition of cluster.id/cellTypes per samples can be calculated from scRNA-seq analysis. Rows should be unique cluster.ids/cellTypes and columns should be sample.ids.
+'P'
+
+
+
 # Load the example dataset:
-load("SQUID_Toy_Example_Data.RData", verbose = T)
+# load("SQUID_Toy_Example_Data.RData", verbose = T)
 
 #' Single-cell RNA Quantity Informed Deconvolution (SQUID).
 #'
