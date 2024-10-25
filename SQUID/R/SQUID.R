@@ -162,7 +162,7 @@ SQUID <- function(B=B, scC=scC , scMeta=scMeta, pB=NULL, P=NULL, LeaveOneOut=FAL
   cat('SQUID is solving the dampened weighted least squares model for Bulk samples ... \n\n')
   RESULTS <- apply(B.new, 2, function(x){
     b = setNames(x, rownames(B.new))
-    tr <- trimData(Z, b)
+    tr <- DWLS::trimData(Z, b)
     RES <- t(solveDampenedWLS(S = Z, B = x))
   })
 

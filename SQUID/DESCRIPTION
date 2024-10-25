@@ -13,3 +13,10 @@ Data: SQUID_Toy_Example_Data.RData
 License: MIT
 Encoding: UTF-8
 LazyData: true
+biocViews: 
+   MAST,
+   SparseArray,
+   S4Arrays
+Depends:
+   dplyr,
+   DWLS
