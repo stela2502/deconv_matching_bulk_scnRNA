@@ -79,6 +79,7 @@
 #' 
 #' Although it might sound stupid - you MUST to provide P or add a sample.id column into scMeta that contains the colnames of the bulk data - e.g.
 #' scMeta[,'sample.id'] = sample( colnames(B), nrow(scMeta), replace=T)
+#' but this does now also follow the recommendation of using the actual sample ids from the single cell data.
 #'
 #' @param B           A bulk RNA-seq numeric matrix which could be either count or normalized values. Rows should be genes and columns should be sample.ids.
 #' @param scC         A single-cell numeric matrix which could be either count or normalized values. Rows should be genes and columns should be cell.ids.
@@ -136,7 +137,7 @@ SQUID <- function(B=B, scC=scC , scMeta=scMeta, pB=NULL, P=NULL, LeaveOneOut=FAL
   if(is.null(P)){
     P <- table(scMeta[,sName], scMeta[,cName]) %>% t()
     P <- P[,gtools::mixedsort(colnames(P))]
-    P <- P[,colnames(P) %in% colnames(B)]
+    #P <- P[,colnames(P) %in% colnames(B)]
     P <- apply(P, 2, function(x) x / sum(x))
   } 
 
