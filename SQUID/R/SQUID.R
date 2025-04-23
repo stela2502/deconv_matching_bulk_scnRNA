@@ -195,17 +195,17 @@ SQUID <- function(B=B, scC=scC , scMeta=scMeta, pB=NULL, P=NULL, LeaveOneOut=FAL
   RESULTS = apply(RESULTS,2,function(x) x/sum(x)) # explicit STO constraint
   RESULTS = RESULTS[gtools::mixedsort(rownames(RESULTS)), , drop = FALSE]
   RESULTS = suppressMessages(reshape2::melt(RESULTS))
-  colnames(RESULTS) <- c("cellType","sample.id","observed_fraction")
+  colnames(RESULTS) <- c(cName, sName,"observed_fraction")
   RESULTS$cellType = as.character(RESULTS$cellType)
   RESULTS$sample.id = as.character(RESULTS$sample.id)
   if(!is.null(P)){
     P = P[gtools::mixedsort(rownames(P)),,drop = FALSE] %>% data.frame(., check.names = FALSE)
     P$cellType = rownames(P)
     P = suppressMessages(reshape2::melt(P))
-    colnames(P) <- c("cellType","sample.id","expected_fraction")
+    colnames(P) <- c(cName, sName,"expected_fraction")
     P$cellType = as.character(P$cellType)
     P$sample.id = as.character(P$sample.id)
-    RESULTS = merge(RESULTS, P, by = c("cellType", "sample.id"), all = TRUE)
+    RESULTS = merge(RESULTS, P, by = c(cName, sName), all = TRUE)
     RESULTS[is.na(RESULTS)] <- 0
     RESULTS$expected_fraction <- round(RESULTS$expected_fraction, 3)
     RESULTS$observed_fraction <- round(RESULTS$observed_fraction, 3)
