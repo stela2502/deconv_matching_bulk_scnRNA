@@ -76,6 +76,9 @@
 #' NOTE: To systematically test the benefit of bulk transformation and deconvolution with SQUID, a leave-one-out cross-validation strategy can also be used:
 #' iteratively, concurrent RNA-Seq and scnRNA-Seq profiles of all but one of the samples were used to predict the composition of the remaining sample based
 #' on its bulk RNA-Seq profile.
+#' 
+#' Although it might sound stupid - you MUST to provide P or add a sample.id column into scMeta that contains the colnames of the bulk data - e.g.
+#' scMeta[,'sample.id'] = sample( colnames(B), nrow(scMeta), replace=T)
 #'
 #' @param B           A bulk RNA-seq numeric matrix which could be either count or normalized values. Rows should be genes and columns should be sample.ids.
 #' @param scC         A single-cell numeric matrix which could be either count or normalized values. Rows should be genes and columns should be cell.ids.
@@ -91,7 +94,7 @@
 #' @usage             RESULTS <- SQUID(B=B, scC=scC , scMeta=scMeta, pB=NULL, P=NULL, LeaveOneOut=FALSE)
 #'
 #'
-SQUID <- function(B=B, scC=scC , scMeta=scMeta, pB=NULL, P=NULL, LeaveOneOut=FALSE) {
+SQUID <- function(B=B, scC=scC , scMeta=scMeta, pB=NULL, P=NULL, LeaveOneOut=FALSE, sName = "sample.id", cName="cellType" ) {
   cat('
 
 
@@ -131,13 +134,11 @@ SQUID <- function(B=B, scC=scC , scMeta=scMeta, pB=NULL, P=NULL, LeaveOneOut=FAL
 
   # Make proportional table (P), if not provided
   if(is.null(P)){
-    P <- table(scMeta$sample.id, scMeta$cellType) %>% t()
+    P <- table(scMeta[,sName], scMeta[,cName]) %>% t()
     P <- P[,gtools::mixedsort(colnames(P))]
     P <- P[,colnames(P) %in% colnames(B)]
     P <- apply(P, 2, function(x) x / sum(x))
-  } else {
-    P=P
-  }
+  } 
 
   # Unify row names between B and pB
   perc.overlap <- (length(intersect(rownames(pB),rownames(B))) * 60)/min(nrow(B),nrow(pB))
